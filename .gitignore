@@ -2,3 +2,4 @@
 /setup.cfg
 /pyproject.toml
 /test_upload.sh
+/dist
