@@ -17,18 +17,19 @@ class DbClassOperator:
         self.operated_class = operated_class
         self.collection_name = operated_class.__name__
         self.collection_folder = self.folder.joinpath(self.collection_name)
+        self.collection_folder.mkdir(parents=True, exist_ok=True)
 
     def delete(self, element: T) -> None:
-        self.delete_by_id(element._id)
+        self.delete_by_id(str(element._id))
 
     def delete_by_id(self, element_id: Any) -> None:
-        if not self.collection_folder.joinpath(element_id).exists():
+        if not self.collection_folder.joinpath(str(element_id)).exists():
             raise NoSuchElementException("No element {} present in the database".format(element_id))
-        os.remove(self.collection_folder.joinpath(element_id))
+        os.remove(self.collection_folder.joinpath(str(element_id)))
 
     def load(self, object_id: Any) -> T:
-        path = self.collection_folder.joinpath(object_id)
-        if not path:
+        path = self.collection_folder.joinpath(str(object_id))
+        if not path.exists():
             raise NoSuchElementException(
                 "No element with _id={} in the collection_name={}".format(object_id, self.collection_name)
             )
@@ -52,7 +53,7 @@ class DbClassOperator:
         return self.write(element)
 
     def write(self, element: T) -> T:
-        self.collection_folder.joinpath(element._id).write_text(json.dumps(element.serialize()))
+        self.collection_folder.joinpath(str(element._id)).write_text(json.dumps(element.serialize()))
         return element
 
     def write_multiple(self, elements: Sequence[T]) -> list[T]:

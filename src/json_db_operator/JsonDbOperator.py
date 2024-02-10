@@ -47,4 +47,6 @@ class JsonDbOperator:
         return self._known_classes[type(element)].write(element)
 
     def clear_database(self):
-        os.remove(self.folder)
+        for dirpath, dirnames, filenames in os.walk(self.folder):
+            for file in filenames:
+                os.remove(os.path.join(dirpath, file))
