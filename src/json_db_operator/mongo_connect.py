@@ -1,5 +1,8 @@
-from pymongo import MongoClient
-from pymongo.database import Database
+try:
+    from pymongo import MongoClient
+    from pymongo.database import Database
+except ModuleNotFoundError:
+    raise ModuleNotFoundError("Pymongo not found. Install pymongo before using MongoDbOperator")
 
 
 def mongo_connect(

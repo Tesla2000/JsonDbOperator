@@ -1,4 +1,7 @@
-from pymongo.database import Database
+try:
+    from pymongo.database import Database
+except ModuleNotFoundError:
+    raise ModuleNotFoundError("Pymongo not found. Install pymongo before using MongoDbOperator")
 
 from .MongoDbClassOperators import MongoDbClassOperators
 from .abstract.DbOperator import DbOperator

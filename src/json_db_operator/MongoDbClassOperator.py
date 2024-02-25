@@ -4,7 +4,10 @@ from threading import Thread
 from typing import Type, Any, Iterable, Sequence
 from warnings import warn
 
-from pymongo.database import Database
+try:
+    from pymongo.database import Database
+except ModuleNotFoundError:
+    raise ModuleNotFoundError("Pymongo not found. Install pymongo before using MongoDbOperator")
 from seriattrs import DbClass
 
 from .abstract.DbClassOperator import DbClassOperator, T, NoSuchElementException
